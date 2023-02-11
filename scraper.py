@@ -9,6 +9,8 @@
 # TODO: add progress bars               X
 # TODO: implement time log              X
 # TODO: use pickles
+# TODO: circle user agent
+# TODO: cache requests ?
 
 import re
 import os
