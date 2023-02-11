@@ -11,6 +11,7 @@
 # TODO: use pickles
 
 import re
+import os
 import pandas as pd
 import requests
 from tqdm import tqdm
@@ -387,6 +388,10 @@ def scrape(urls):
     write_to_disk(urls)
 
 if __name__=='__main__':
+    data_path = f'{os.getcwd()}/data/'
+    if not os.path.exists(data_path):
+        os.makedirs(data_path)
+
     new_urls = get_urls()
     safety_copy()
     scrape(new_urls)
