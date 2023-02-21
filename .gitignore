@@ -3,3 +3,6 @@
 
 # ignore data directory
 data/*
+
+spotter.py
+test.py 
