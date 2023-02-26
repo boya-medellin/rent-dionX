@@ -315,15 +315,6 @@ def preprocess(attrs):
 
     return attrs
 
-def Handle_bad_data(entry, urls):
-    # Write to bad_data
-    with open('bad_data.txt', 'a') as bad:
-        bad.write(f'{entry}\n')
-
-    # And remove from urls
-    urls.remove(entry)
-    return urls
-
 def safety_copy():
     # Make a safety copy of data.csv
     try:
@@ -357,14 +348,11 @@ def scrape(urls):
     for i, url in zip(tqdm(range(len(urls)), desc='Scraping'), urls):
         ad = get_response(page=None, url=url)
         if ad == False:
-            urls = Handle_bad_data(url, urls)
             continue
 
         try:
             soup = BeautifulSoup(ad, 'html.parser')
         except Exception as e:
-            print(e)
-            urls = Handle_bad_data(url, urls)
             continue
 
         attrs = parse(soup)
