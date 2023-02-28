@@ -22,6 +22,8 @@ from io import StringIO
 from html.parser import HTMLParser
 from datetime import datetime
 
+CURRENT_DIR = os.getcwd()
+
 # Supress Warnings
 import warnings
 def fxn():
@@ -318,21 +320,21 @@ def preprocess(attrs):
 def safety_copy():
     # Make a safety copy of data.csv
     try:
-        df = pd.read_csv('data/data.csv')
+        df = pd.read_csv(f'{CURRENT_DIR}/data.csv')
     except:
         return
-    df.to_csv('data/data_backup.csv')
+    df.to_csv(f'{CURRENT_DIR}/data_backup.csv')
 
 def log(message):
     # Print to log.txt
     timestamp = datetime.now().strftime('%d-%m-%Y %H:%M')
-    with open('log.txt', 'a') as log:
+    with open(f'{CURRENT_DIR}/log.txt', 'a') as log:
         log.write(f'{timestamp} : {message}\n')
 
 def write_to_disk(urls):
     # Write urls to utls.txt
 
-    with open('urls.txt', 'a') as f:
+    with open(f'{CURRENT_DIR}/urls.txt', 'a') as f:
         for item in urls:
             f.write(f'{item}\n')
 
@@ -341,7 +343,7 @@ def scrape(urls):
 
     count = 0
     try:
-        df = pd.read_csv('data/data.csv')
+        df = pd.read_csv(f'{CURRENT_DIR}/data.csv')
     except:
         df = pd.DataFrame()
 
@@ -372,13 +374,13 @@ def scrape(urls):
             continue
 
     df = df.drop_duplicates(subset='code')
-    df.to_csv('data/data.csv', index=False)
+    df.to_csv(f'{CURRENT_DIR}/data/data.csv', index=False)
     print(f"Scraped {count} entities.")
     log(f"Scraped {count} entities.")
     write_to_disk(urls)
 
 if __name__=='__main__':
-    data_path = f'{os.getcwd()}/data/'
+    data_path = f'{CURRENT_DIR}/data/'
     if not os.path.exists(data_path):
         os.makedirs(data_path)
 
