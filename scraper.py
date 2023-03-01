@@ -22,7 +22,8 @@ from io import StringIO
 from html.parser import HTMLParser
 from datetime import datetime
 
-CURRENT_DIR = '/home/boya/projects/rent-dionX'
+#CURRENT_DIR = '/home/boya/projects/rent-dionX'
+CURRENT_DIR = os.getcwd()
 
 # Supress Warnings
 import warnings
@@ -59,7 +60,7 @@ def get_urls():
     # Returns all urls to ad pages
 
     try: 
-        urls = [line.strip() for line in open('urls.txt', 'r')]
+        urls = [line.strip() for line in open(f'{CURRENT_DIR}/urls.txt', 'r')]
     except:
         urls = []
 
@@ -323,7 +324,7 @@ def safety_copy():
         df = pd.read_csv(f'{CURRENT_DIR}/data.csv')
     except:
         return
-    df.to_csv(f'{CURRENT_DIR}/data_backup.csv')
+    df.to_csv(f'{CURRENT_DIR}/data_backup.csv', index=False)
 
 def log(message):
     # Print to log.txt
