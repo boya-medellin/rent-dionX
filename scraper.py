@@ -22,7 +22,6 @@ from io import StringIO
 from html.parser import HTMLParser
 from datetime import datetime
 
-#CURRENT_DIR = '/home/boya/projects/rent-dionX'
 CURRENT_DIR = os.getcwd()
 
 # Supress Warnings
@@ -321,10 +320,10 @@ def preprocess(attrs):
 def safety_copy():
     # Make a safety copy of data.csv
     try:
-        df = pd.read_csv(f'{CURRENT_DIR}/data.csv')
+        df = pd.read_csv(f'{CURRENT_DIR}/data/data.csv')
     except:
         return
-    df.to_csv(f'{CURRENT_DIR}/data_backup.csv', index=False)
+    df.to_csv(f'{CURRENT_DIR}/data/data_backup.csv', index=False)
 
 def log(message):
     # Print to log.txt
@@ -344,7 +343,7 @@ def scrape(urls):
 
     count = 0
     try:
-        df = pd.read_csv(f'{CURRENT_DIR}/data.csv')
+        df = pd.read_csv(f'{CURRENT_DIR}/data/data.csv')
     except:
         df = pd.DataFrame()
 
