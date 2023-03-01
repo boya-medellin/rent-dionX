@@ -1,5 +1,5 @@
 ### What it does:
-	This project is a web scraping script to scrape data from real estate ads
+	Scrapes data from real estate ads
 	in the city of Heraklion.
 
 ### How it does what it does:
