@@ -22,7 +22,7 @@ from io import StringIO
 from html.parser import HTMLParser
 from datetime import datetime
 
-CURRENT_DIR = os.getcwd()
+CURRENT_DIR = '/home/boya/projects/rent-dionX'
 
 # Supress Warnings
 import warnings
