@@ -22,8 +22,8 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-from preprocess import Preprocess
-from parser import Parser
+from lib.preprocess import Preprocess
+from lib.parser import Parser
 
 
 # Supress Warnings
@@ -132,13 +132,14 @@ class Scraper:
             except Exception as e:
                 continue
 
-            # Parse and Preprocess 
+            # Parse html data
             attrs = parser.parse(soup)
+            # Preprocess data
             attrs = preprocess.preprocess(attrs)
             if attrs == False:
                 continue
 
-            # Append Parsed and Preprocesses Data to Dataframe
+            # Append data to Dataframe
             try:
                 df2 = pd.DataFrame([attrs])
                 df = pd.concat([df, df2], ignore_index=True)

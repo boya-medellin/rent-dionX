@@ -1,7 +1,5 @@
-import sys
 import os
-sys.path.append('core')
-from scraper import Scraper
+from lib.scraper import Scraper
 
 
 if __name__ == '__main__':

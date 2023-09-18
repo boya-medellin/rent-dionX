@@ -147,7 +147,7 @@ class Preprocess():
 
         # Format floor to floats
         try:
-            replace = {'Ισόγειο': 0, 'Ημιώροφος': 0.5, 'Ημιυπόγειο': -0.5, 'Υπερυψωμένο': 0}
+            replace = {'Υπόγειο': -1, 'Ισόγειο': 0, 'Ημιώροφος': 0.5, 'Ημιυπόγειο': -0.5, 'Υπερυψωμένο': 0}
             if attrs['floor'] in replace.keys():
                 attrs['floor'] = replace[attrs['floor']]
             attrs['floor'] = attrs['floor'].replace('ος', '')
@@ -159,16 +159,18 @@ class Preprocess():
         # construction_year, available_date
         dates = {'Δευτέρα': 'Monday', 'Τρίτη': 'Tuesday', 'Τετάρτη': 'Wednesday', 
                 'Πέμπτη': 'Thursday', 'Παρασκευή': 'Friday', 'Σάββατο': 'Saturday', 'Κυριακή': 'Sunday',
-                'Ιαν': 'Jan', 'Φεβ': 'Feb', 'Μαρ': 'Mar', 'Απρ': 'Apr', 'Μαη': 'May', 
-                'Ιουν': 'Jun', 'Ιουλ': 'Jul', 'Αυγ': 'Aug', 'Σεπ':'Sep', 'Οκτ': 'Oct', 'Νοε':'Noe', 'Δεκ': 'Dec'}
+                 'Ιαν': 'Jan', 'Φεβ': 'Feb', 'Μαρ': 'Mar', 'Απρ': 'Apr', 'Μαη': 'May', 'Μάι': 'May', 'Μαϊ': 'May',
+                 'Ιουν': 'Jun', 'Ιούν': 'Jun', 'Ιουλ': 'Jul', 'Ιούλ': 'Jul', 
+                 'Αυγ': 'Aug', 'Αύγ': 'Aug', 'Σεπ':'Sep', 'Οκτ': 'Oct', 
+                 'Νοε':'Nov', 'Νοέ': 'Nov', 'Δεκ': 'Dec'}
 
         today = datetime.today().strftime('%A %-d %b %Y')
 
         try:
             for key,value in dates.items():
-                attrs['upload_date'] = attrs['upload_date'].replace(key, value)
-            attrs['upload_date'] = attrs['upload_date'].replace(',', '')
-            attrs['upload_date'] = attrs['upload_date'].replace('σήμερα', today)
+                attrs['upload_date'] = attrs['upload_date'].str.replace(key, value)
+            attrs['upload_date'] = attrs['upload_date'].str.replace(',', '')
+            attrs['upload_date'] = attrs['upload_date'].str.replace('σήμερα', today)
             date_object = datetime.strptime(attrs['upload_date'], '%A %d %b %Y')
             attrs['upload_date'] = date_object
         except: pass
@@ -197,6 +199,7 @@ class Preprocess():
                     date_object = datetime.strptime(attrs['available_date'], '%Y')
                     attrs['available_date'] = date_object
                 except: pass
+        # Format coordinates
 
         # Some more shit
         try:
