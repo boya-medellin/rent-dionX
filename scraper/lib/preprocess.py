@@ -1,7 +1,6 @@
 import re
 from datetime import datetime
 
-
 class Preprocess():
     def __init__(self):
         self.transaction_replace = {

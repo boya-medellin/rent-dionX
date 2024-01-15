@@ -1,15 +1,14 @@
 import os
 from lib.scraper import Scraper
 
-
 if __name__ == '__main__':
 
-    path = os.getcwd()
     parent_url = 'https://www.kritikes-aggelies.gr'
+    path = os.path.dirname(os.path.realpath(__file__))
 
     scraper = Scraper(path, parent_url)
 
-    # Scrape Urls
+    # Scrape urls
     new_urls = scraper.get_urls()
 
     # Make a safety copy

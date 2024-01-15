@@ -18,6 +18,8 @@ import os
 import re
 import pandas as pd
 import requests
+import subprocess
+
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -40,8 +42,11 @@ warnings.simplefilter("ignore", category=FutureWarning)
 class Scraper:
     def __init__(self, cwd, parent_url):
         self.parent_url = parent_url
-        self.CURRENT_DIR = cwd
-        self.DATA_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..', 'data'))
+
+        self.CWD = cwd
+        self.LOGFILE = os.path.abspath(os.path.join(self.CWD, 'log.txt'))
+        self.URLFILE = os.path.abspath(os.path.join(self.CWD, 'urls.txt'))
+        self.DATA_DIR = os.path.abspath(os.path.join(self.CWD,  '../data'))
 
         if not os.path.exists(self.DATA_DIR):
             os.mkdir(self.DATA_DIR)
@@ -71,7 +76,7 @@ class Scraper:
         # Returns all urls to ad pages
 
         try: 
-            urls = [line.strip() for line in open(f'{self.CURRENT_DIR}/urls.txt', 'r')]
+            urls = [line.strip() for line in open(self.URLFILE, 'r')]
         except:
             urls = []
 
@@ -156,20 +161,28 @@ class Scraper:
         self.write_to_disk(urls)
 
         # Log
-        print(f"Scraped {count} entities.")
-        self.log(f"Scraped {count} entities.")
+        message = f"Scraped {count} entities."
+        print(message)
+        self.log(message)
+        self.notify(message)
 
 
     def log(self, message):
         # Print to log.txt
         timestamp = datetime.now().strftime('%d-%m-%Y %H:%M')
-        with open(f'{self.CURRENT_DIR}/log.txt', 'a') as log:
+        with open(self.LOGFILE, 'a') as log:
             log.write(f'{timestamp} : {message}\n')
+
+    def notify(self, message):
+        try:
+            subprocess.Popen(['notify-send', 'rent-dion', message])
+        except:
+            pass
 
 
     def write_to_disk(self, urls):
-        # Write urls to utls.txt
-        with open(f'{self.CURRENT_DIR}/urls.txt', 'a') as f:
+        # Write urls to urls.txt
+        with open(self.URLFILE, 'a') as f:
             for item in urls:
                 f.write(f'{item}\n')
 
